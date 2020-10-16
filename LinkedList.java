@@ -51,6 +51,7 @@ public class LinkedList<I>
     public static Integer counter=0;
     public InterfaceNode<I> headPart=null;
     public InterfaceNode<I> tailPart=null;
+    public Integer size;
   
     
     public void addToList(InterfaceNode<I> tempNode) {
@@ -91,6 +92,7 @@ public class LinkedList<I>
 		}
 		
 	}
+  
     public void insertionInBetween(InterfaceNode<I> node1, InterfaceNode<I> node2) {
     	InterfaceNode<I> tempNode=node1.getNext();
 		node1.setNext(node2);
@@ -120,6 +122,9 @@ public class LinkedList<I>
 			tempNode=tempNode.getNext();
 		}
 		return null;
+	}
+    public int size() {
+		return size;
 	}
     
 

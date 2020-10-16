@@ -18,7 +18,22 @@ public class HashTable<I,M>
 			this.array=null;
 		}
 	}
+	public Integer getLength() {
+		int length=0;
+		for(LinkedList<I> listOfValues:array) {
+			if(listOfValues!=null) {
+				length=length+listOfValues.size();
+			}
+		}return length;
+	}
+	public boolean isEmpty() {
+		return getLength()==0;
+	}
 	public M get(I key) {
+		Integer indexOfValue=findIndex(key);
+		LinkedList<I> listOfValues=array.get(indexOfValue);
+		if(listOfValues==null)
+			return null;
 		MapNode<I, M> nodeInMap=(MapNode<I, M>) listOfValues.searchingNode(key);
 		return (nodeInMap==null)?null:nodeInMap.getValue();
 	}
@@ -44,6 +59,13 @@ public class HashTable<I,M>
 			nodeInMap.setValue(value);
 		}
 	}
+	public void deletingValue(I key) {
+		Integer indexOfValue=findIndex(key);
+		LinkedList<I>listOfValues=array.get(indexOfValue);
+		if(listOfValues!=null) {
+		   listOfValues.deletingValue(key);
+		}	
+	}
     public static void main( String[] args )
     {
     	HashTable<String, Integer> hashTable= new HashTable<String, Integer>();
@@ -55,5 +77,8 @@ public class HashTable<I,M>
 				hashTable.addToList(word, hashTable.get(word)+1);;
 			}
 		}
-		log.debug(hashTable);    }
+		log.debug(hashTable); 
+		hashTable.deletingValue("avoidable");
+		log.debug("\nhashTable");
+		}
 }
