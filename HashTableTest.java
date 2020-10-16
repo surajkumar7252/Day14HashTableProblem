@@ -22,4 +22,20 @@ public class HashTableTest {
 		log.debug(hashTable);
 		Assert.assertEquals(2, frequency);
 	}
+	@Test
+	public void whenLineGivenShouldReturnParanoidFrequency() {
+		HashTable<String, Integer> hashTable= new HashTable<String, Integer>();
+		String line="Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations.";
+		
+		for(String word: line.split(" ")) {
+			if(hashTable.get(word)==null) {
+				hashTable.addToList(word, 1);
+			}else {
+				hashTable.addToList(word, hashTable.get(word)+1);;
+			}
+		}
+		int frequency=hashTable.get("paranoid");
+		log.debug(hashTable);
+		Assert.assertEquals(3, frequency);
+	}
 }

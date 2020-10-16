@@ -1,5 +1,6 @@
 package Day14HashTable.Day14HashTableProblem;
 
+import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -7,16 +8,35 @@ public class HashTable<I,M>
 {
 	private static final Logger log=LogManager.getLogger(HashTable.class);
 	private LinkedList<I> listOfValues;
+	private final Integer numTimes;
+	private ArrayList<LinkedList<I>>array;
 	
 	public HashTable() {
-		listOfValues=new LinkedList<I>();
+		this. numTimes=20;
+		this.array=new ArrayList<LinkedList<I>>();
+		for(int i=0;i<numTimes;i++) {
+			this.array=null;
+		}
 	}
 	public M get(I key) {
 		MapNode<I, M> nodeInMap=(MapNode<I, M>) listOfValues.searchingNode(key);
 		return (nodeInMap==null)?null:nodeInMap.getValue();
 	}
+	public Integer findIndex(I key) {
+		Integer hashKey=Math.abs(key.hashCode());
+		Integer indexOfValue=hashKey% numTimes;
+		return indexOfValue;
+		
+	}
+	
 	
 	public void addToList(I key, M value) {
+		Integer indexOfValue=findIndex(key);
+		LinkedList<I>listOfValues=array.get(indexOfValue);
+		if(listOfValues==null) {
+			listOfValues = new LinkedList<I>();
+			array.set(indexOfValue, listOfValues);
+		}
 		MapNode<I, M> nodeInMap=(MapNode<I, M>) (listOfValues.searchingNode(key));
 		if(nodeInMap==null) {
 			listOfValues.addToList(new MapNode<I, M>(key,value));
@@ -27,7 +47,7 @@ public class HashTable<I,M>
     public static void main( String[] args )
     {
     	HashTable<String, Integer> hashTable= new HashTable<String, Integer>();
-		String line="to be or not to be";
+		String line="Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations.";
 		for(String word: line.split(" ")) {
 			if(hashTable.get(word)==null) {
 				hashTable.addToList(word, 1);
